@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+  <title>Guess</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Bootstrap and JQuery -->
+  <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <link rel="stylesheet" href="css/guessing_game_style.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+</head>
+<body>
+  <!-- Login and Signup Navbar -->
+  <nav class="navbar navbar-default">
+    <div class="container-fluid">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">Guess</a>
+      </div>
+      <div>
+        <ul class="nav navbar-nav">
+          <li><a data-toggle="modal" data-target="#loginModal" href="#">Login</a></li>
+          <li><a data-toggle="modal" data-target="#signUpModal" href="#">Sign Up</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <li><a id="username-current" href="#">Not Logged In</a></li>
+          <li><a href="#">Games Won: <span id="win-count">--</span></a></li>
+          <li><a href="#">Games Lost: <span id="loss-count">--</span></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- Jumbotron and New Game Button -->
+  <div class="jumbotron">
+    <div class="container">
+      <h1>I'm thinking of a number between 1 and 100...</h1>
+      <!-- Difficulty Dropdown -->
+      <div class="dropdown">
+        <button class="btn btn-info dropdown-toggle" type="button" data-toggle="dropdown">New Game <span class="caret"></span></button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">Select difficulty</li>
+            <li><a href="#" id="difficulty-practice">Practice Mode</a></li>
+            <li><a href="#" id="difficulty-easy">Normal Human</a></li>
+            <li><a href="#" id="difficulty-medium">Computer Scientist</a></li>
+            <li><a href="#" id="difficulty-hard">Psychic Alien</a></li>
+            <li><a href="#" id="difficulty-jedi">Jedi Knight</a></li>
+          </ul>
+      </div>
+      <!-- Time Trial Button -->
+      <button class="btn btn-info" type="button" id="time-trial-button">Time Trial</button>
+      <!-- Achievements Earned Button -->
+      <button class="btn btn-info" type="button" id="achievements-earned-button">View Achievements</button>
+    </div>
+    <div id="achievements"></div>
+  </div>
+  <!-- Submission Form and Remaining Guess Display -->
+  <div class="container">
+    <div class="col-md-8">
+      <form class="form-horizontal" role="form" id="guess-form">
+        <div class="form-group">
+          <label>Your guess:</label>
+          <input type="text" class="form-control" id="submit-guess-input" autocomplete="off" disabled>
+        </div>
+        <div class="form-group">
+          <a href="#" class="btn btn-primary" role="button" id="submit-guess-button">Guess</a>
+          <a href="#" class="btn btn-primary" role="button" id="hint-button">Hint, Please!</a>
+        </div>
+      </form>
+    </div>
+    <div class="col-md-4">
+      <h1 id="guesses-left">Guesses Left: <span id="guesses-remaining">--</span></h1>
+    </div>
+  </div>
+  <!-- Alerts Display -->
+  <div class="well well-lg" id="alerts">
+    <div class="alert alert-warning">
+      Select the New Game button to begin!
+    </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div>
+        <ul class="nav nav-pills" data-spy="affix-bottom">
+          <li><a href="#" title="Friend me on Facebook!"><img src="images24/facebook29.png" /></a></li>
+          <li><a href="#" title="Fork me on GitHub!"><img src="images24/github12.png" /></a></li>
+          <li><a href="#" title="Do...whatever it is people do on Google+!"><img src="images24/google2.png" /></a></li>
+          <li><a href="#" title="Link me on LinkedIn!"><img src="images24/linkedin12.png" /></a></li>
+          <li><a href="#" title="Follow me on Tumblr!"><img src="images24/tumblr9.png" /></a></li>
+          <li><a href="#" title="Tweet me on Twitter!"><img src="images24/twitter2.png" /></a></li>
+        </ul>
+      </div>
+      <div class="text-muted">
+        Icons made by 
+        <a href="http://www.flaticon.com/authors/elegant-themes" title="Elegant Themes">Elegant Themes</a>, 
+        <a href="http://www.flaticon.com/authors/icomoon" title="Icomoon">Icomoon</a>, 
+        <a href="http://www.flaticon.com/authors/dave-gandy" title="Dave Gandy">Dave Gandy</a>, 
+        <a href="http://www.flaticon.com/authors/simpleicon" title="SimpleIcon">SimpleIcon</a> from 
+        <a href="http://www.flaticon.com" title="Flaticon">www.flaticon.com</a> is licensed by 
+        <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0">CC BY 3.0</a>
+      </div>
+    </div>
+  </footer>
+  
+  <!-- Login Previous User -->
+<div id="loginModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close clear-modal" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Welcome Back! Please enter your username and password!</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control usrpwd" id="prev-usr">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control usrpwd" id="prev-pwd">
+        </div>
+        <p id="error-info-login" class="login-error"></p>
+      </div>     
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="prev-login">Login</button>
+        <button type="button" class="btn btn-default clear-modal" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+  <!-- New User Sign Up -->
+<div id="signUpModal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close clear-modal" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">We've been expecting you! Please enter a username and password!</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="usr">Name:</label>
+          <input type="text" class="form-control usrpwd" id="new-usr">
+        </div>
+        <div class="form-group">
+          <label for="pwd">Password:</label>
+          <input type="password" class="form-control usrpwd" id="new-pwd">
+        </div>
+        <p id="error-info-signup" class="login-error"></p>
+      </div>     
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="new-signup">Sign Up</button>
+        <button type="button" class="btn btn-default clear-modal" data-dismiss="modal">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
+  
+</body>
+  <script src="js/globals.js"></script>
+  <script src="js/dom_manipulators.js"></script>
+  <script src="js/functions.js"></script>
+  <script src="js/constructors.js"></script>
+  <script src="js/event_handlers.js"></script>
+</html>
